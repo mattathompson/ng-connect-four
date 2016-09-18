@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChildren, QueryList }    from '@angular/core';
-import { BoardRow, BoardSpace } from '../';
+import { BoardRow, BoardSpace, Player } from '../';
 import { BoardRowComponent } from '../board-row/board-row.component';
 
 @Component({
@@ -8,7 +8,11 @@ import { BoardRowComponent } from '../board-row/board-row.component';
   styleUrls: ['./game-board.component.css']
 })
 export class GameBoardComponent implements OnInit {
-  rows: Array<BoardRow>
+  rows: Array<BoardRow>;
+  computer: Player;
+  player: Player;
+  whoseTurn: number;
+
   @ViewChildren(BoardRowComponent) boardRowComponents: QueryList<BoardRowComponent>;
 
 
@@ -16,9 +20,11 @@ export class GameBoardComponent implements OnInit {
 
   ngOnInit() {
     this.rows = Array(6).fill().map((x,i)=> new BoardRow({location: i}));
+    this.setPlayers();
+    this.setRandomTurn();
   }
 
-  makeMove(l){
+  makeMove(l) : void {
     let row = this.fetchRow(l)
     let childRowComponent = this.boardRowComponents.toArray().filter(function( obj ) { return obj.row === row })[0]
     if (childRowComponent) {
@@ -26,7 +32,24 @@ export class GameBoardComponent implements OnInit {
     } else {
       alert("There are no more spaces on that column");
     }
+  }
+  
+  setPlayer(){
+    this.computer = new Player({ id: 1, computer: true, color: "red"});
+    this.player = new Player({id: 2, computer: false, color: "black"});
+    this.players = Array(this.computer, this.player);
+  }
 
+  findPlayer(id){
+    this.players.filter(function( obj ) {
+      return obj.id === id;
+    })[0]
+  }
+
+  private setRandomTurn() : void {
+    let players = Array(this.player, this.computer)
+    let index = Math.floor(Math.random() * players.length)
+    this.whoseTurn = players[index].id;
   }
 
   private fetchRow(l) : BoardRow {
