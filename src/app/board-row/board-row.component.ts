@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output }             from '@angular/core';
 import { BoardRow, BoardSpace }          from '../';
 
 @Component({
@@ -11,16 +11,21 @@ export class BoardRowComponent implements OnInit {
   row: BoardRow;
   spaces: Array<BoardSpace>
 
+  @Output() moveMade: EventEmitter<any> = new EventEmitter();
+
+
   constructor() { }
 
   ngOnInit() {
     this.spaces = this.row.spaces;
   }
 
-  setSpace(index) {
+  setSpace(index, player) {
     let space = this.spaces.filter(function( obj ) { return obj.index === index })[0]
     space.filled = true;
-    space.color = "red";
+    space.color = player.color;
+    space.playerId = player.id;
+    this.moveMade.emit();
   }
 
 }

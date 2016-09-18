@@ -3,14 +3,14 @@
     <thead>
       <tr>
         <th *ngFor="let row of [1,2,3,4,5,6,7]; let i = index" class="text-center">
-          <button class="btn btn-default" (click)="makeMove(i)" [disabled]="!playersTurn()">
+          <button class="btn btn-default" (click)="playersMove(i)" *ngIf="playersTurn()">
             <i class="fa fa-arrow-down" aria-hidden="true"></i>
           </button>
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr app-board-row *ngFor="let row of rows" [row]="row"></tr>
+      <tr app-board-row *ngFor="let row of rows" [row]="row" (moveMade)="newMove()"></tr>
     </tbody>
   </table>
 </div>

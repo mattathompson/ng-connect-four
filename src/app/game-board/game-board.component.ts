@@ -22,6 +22,7 @@ export class GameBoardComponent implements OnInit {
 
 
   constructor() {
+
   }
 
   ngOnInit() {
@@ -30,13 +31,17 @@ export class GameBoardComponent implements OnInit {
     this.setRandomTurn();
   }
 
-  makeMove(l) : void {
-    let row = this.fetchRow(l)
+  newMove() : void {
+    if(!this.playersTurn()) {
+      this.computersMove();
+    }
+  }
+
+  makeMove(l, player) : void {
+    let row = this.avalibleRow(l)
     let childRowComponent = this.boardRowComponents.toArray().filter(function( obj ) { return obj.row === row })[0]
-    if (childRowComponent) {
-      childRowComponent.setSpace(l);
-    } else {
-      alert("There are no more spaces on that column");
+    if (row) {
+      childRowComponent.setSpace(l, player);
     }
   }
 
@@ -54,14 +59,34 @@ export class GameBoardComponent implements OnInit {
     return (isPlayer && this.playHasStarted);
   }
 
-  computerMove(){
+  playersMove(l) {
+    if(this.avalibleRow(l)) {
+      this.activePlayerId = this.computer.id;
+      this.makeMove(l, this.player);
+    } else {
+      alert("There are no more spaces on that column");
+    }
+  }
 
+  computersMove(){
+    let possibilites = this.shuffle(Array(7).fill().map((x,i) => i));
+    let l;
+
+    for (let possibility of possibilites) {
+      if (this.avalibleRow(possibility)) {
+        l = possibility;
+        break;
+      }
+    }
+
+    this.activePlayerId = this.player.id;
+    this.makeMove(l, this.computer);
   }
 
   startGame() : void {
     this.playHasStarted = true;
     if(!this.playersTurn()){
-      this.computerMove();
+      this.computersMove();
     }
   }
 
@@ -71,7 +96,7 @@ export class GameBoardComponent implements OnInit {
     this.activePlayerId = players[index].id;
   }
 
-  private fetchRow(l) : BoardRow {
+  private avalibleRow(l) : BoardRow {
     var rows = this.rows.filter(function ( row ) {
       for(let space of row.spaces) {
         if (space.index === l && space.filled == false) {
@@ -86,5 +111,20 @@ export class GameBoardComponent implements OnInit {
     this.computer = new Player({ id: 1, computer: true, color: "red"});
     this.player = new Player({id: 2, computer: false, color: "black"});
     this.players = Array(this.computer, this.player);
+  }
+
+  private shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
   }
 }
