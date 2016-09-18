@@ -1,1 +1,11 @@
-<app-game-board></app-game-board>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <button (click)="startGame(board)" class="btn btn-default" *ngIf="!board.playHasStarted">Start Play</button>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <app-game-board #board></app-game-board>
+  </div>
+</div>

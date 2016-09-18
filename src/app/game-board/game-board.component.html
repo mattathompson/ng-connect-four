@@ -1,16 +1,16 @@
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th *ngFor="let row of [1,2,3,4,5,6,7]; let i = index" class="text-center"><button class="btn btn-default" (click)="makeMove(i)" [disabled]="playersTurn()"><i class="fa fa-arrow-down" aria-hidden="true"></i></button></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr app-board-row *ngFor="let row of rows" [row]="row"></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th *ngFor="let row of [1,2,3,4,5,6,7]; let i = index" class="text-center">
+          <button class="btn btn-default" (click)="makeMove(i)" [disabled]="!playersTurn()">
+            <i class="fa fa-arrow-down" aria-hidden="true"></i>
+          </button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr app-board-row *ngFor="let row of rows" [row]="row"></tr>
+    </tbody>
+  </table>
 </div>

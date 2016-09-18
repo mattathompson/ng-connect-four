@@ -9,16 +9,20 @@ import { BoardRowComponent } from '../board-row/board-row.component';
 })
 export class GameBoardComponent implements OnInit {
   rows: Array<BoardRow>;
+
   computer: Player;
   player: Player;
+
   players: Array<Player>;
 
   activePlayerId: number;
+  playHasStarted: boolean = false;
 
   @ViewChildren(BoardRowComponent) boardRowComponents: QueryList<BoardRowComponent>;
 
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
     this.rows = Array(6).fill().map((x,i)=> new BoardRow({location: i}));
@@ -44,7 +48,10 @@ export class GameBoardComponent implements OnInit {
   }
 
   playersTurn() : boolean {
-    return this.findPlayer(this.activePlayerId).computer === false;
+    let id = this.activePlayerId;
+    let isPlayer = this.findPlayer(id).computer === false;
+
+    return (isPlayer && this.playHasStarted);
   }
 
   private setRandomTurn() : void {
