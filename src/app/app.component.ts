@@ -10,6 +10,6 @@ export class AppComponent {
   title = 'Ng2 Connect Four';
 
   startGame(board) {
-    board.playHasStarted = true;
+    board.startGame();
   }
 }

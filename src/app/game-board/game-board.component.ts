@@ -54,6 +54,17 @@ export class GameBoardComponent implements OnInit {
     return (isPlayer && this.playHasStarted);
   }
 
+  computerMove(){
+
+  }
+
+  startGame() : void {
+    this.playHasStarted = true;
+    if(!this.playersTurn()){
+      this.computerMove();
+    }
+  }
+
   private setRandomTurn() : void {
     let players = Array(this.player, this.computer)
     let index = Math.floor(Math.random() * players.length)
