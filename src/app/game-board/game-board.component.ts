@@ -1,12 +1,15 @@
 import { Component, OnInit, ViewChildren, QueryList }    from '@angular/core';
 import { BoardRow, BoardSpace, Player } from '../';
 import { BoardRowComponent } from '../board-row/board-row.component';
+import { RefereeServiceService } from '../referee-service.service';
 
 @Component({
   selector: 'app-game-board',
   templateUrl: './game-board.component.html',
-  styleUrls: ['./game-board.component.css']
+  styleUrls: ['./game-board.component.css'],
+  providers: [ RefereeServiceService ]
 })
+
 export class GameBoardComponent implements OnInit {
   rows: Array<BoardRow>;
 
@@ -21,7 +24,7 @@ export class GameBoardComponent implements OnInit {
   @ViewChildren(BoardRowComponent) boardRowComponents: QueryList<BoardRowComponent>;
 
 
-  constructor() {
+  constructor(private referee: RefereeServiceService) {
 
   }
 
