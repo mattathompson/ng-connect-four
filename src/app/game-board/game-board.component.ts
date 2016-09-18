@@ -33,17 +33,15 @@ export class GameBoardComponent implements OnInit {
       alert("There are no more spaces on that column");
     }
   }
-  
-  setPlayer(){
-    this.computer = new Player({ id: 1, computer: true, color: "red"});
-    this.player = new Player({id: 2, computer: false, color: "black"});
-    this.players = Array(this.computer, this.player);
-  }
 
   findPlayer(id){
     this.players.filter(function( obj ) {
       return obj.id === id;
     })[0]
+  }
+
+  playersTurn() : boolean {
+    return this.whoseTurn.computer === false;
   }
 
   private setRandomTurn() : void {
@@ -61,5 +59,11 @@ export class GameBoardComponent implements OnInit {
       }
     });
     return rows[rows.length - 1]
+  }
+
+  private setPlayers(){
+    this.computer = new Player({ id: 1, computer: true, color: "red"});
+    this.player = new Player({id: 2, computer: false, color: "black"});
+    this.players = Array(this.computer, this.player);
   }
 }
