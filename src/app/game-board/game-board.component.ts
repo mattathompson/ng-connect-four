@@ -11,7 +11,9 @@ export class GameBoardComponent implements OnInit {
   rows: Array<BoardRow>;
   computer: Player;
   player: Player;
-  whoseTurn: number;
+  players: Array<Player>;
+
+  activePlayerId: number;
 
   @ViewChildren(BoardRowComponent) boardRowComponents: QueryList<BoardRowComponent>;
 
@@ -34,20 +36,21 @@ export class GameBoardComponent implements OnInit {
     }
   }
 
-  findPlayer(id){
-    this.players.filter(function( obj ) {
+  findPlayer(id) : Player {
+    var object = this.players.filter(function( obj ) {
       return obj.id === id;
     })[0]
+    return object;
   }
 
   playersTurn() : boolean {
-    return this.whoseTurn.computer === false;
+    return this.findPlayer(this.activePlayerId).computer === false;
   }
 
   private setRandomTurn() : void {
     let players = Array(this.player, this.computer)
     let index = Math.floor(Math.random() * players.length)
-    this.whoseTurn = players[index].id;
+    this.activePlayerId = players[index].id;
   }
 
   private fetchRow(l) : BoardRow {
