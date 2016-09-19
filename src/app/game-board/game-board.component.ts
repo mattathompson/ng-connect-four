@@ -35,6 +35,9 @@ export class GameBoardComponent implements OnInit {
   }
 
   newMove() : void {
+    this.referee.checkForWinner(this.rows, this.activePlayerId);
+    this.switchTurns();
+
     if(!this.playersTurn()) {
       this.computersMove();
     }
@@ -64,7 +67,6 @@ export class GameBoardComponent implements OnInit {
 
   playersMove(l) {
     if(this.avalibleRow(l)) {
-      this.activePlayerId = this.computer.id;
       this.makeMove(l, this.player);
     } else {
       alert("There are no more spaces on that column");
@@ -81,8 +83,6 @@ export class GameBoardComponent implements OnInit {
         break;
       }
     }
-
-    this.activePlayerId = this.player.id;
     this.makeMove(l, this.computer);
   }
 
@@ -90,6 +90,14 @@ export class GameBoardComponent implements OnInit {
     this.playHasStarted = true;
     if(!this.playersTurn()){
       this.computersMove();
+    }
+  }
+
+  private switchTurns(){
+    if(this.playersTurn()){
+      this.activePlayerId = this.computer.id;
+    } else {
+      this.activePlayerId = this.player.id;
     }
   }
 
