@@ -16,6 +16,8 @@ export class GameBoardComponent implements OnInit {
   computer: Player;
   player: Player;
 
+  winner: Player;
+
   players: Array<Player>;
 
   activePlayerId: number;
@@ -34,11 +36,23 @@ export class GameBoardComponent implements OnInit {
     this.setRandomTurn();
   }
 
+  restartGame(){
+    window.location.reload()
+  }
+
+  startGame() : void {
+    this.playHasStarted = true;
+    if(!this.playersTurn()){
+      this.computersMove();
+    }
+  }
+
   newMove() : void {
     var results = this.referee.checkForWinner(this.rows, this.activePlayerId);
     console.log(results);
     if (results.win === true) {
       var player = this.findPlayer(results.playerId);
+      this.winner = player;
       if(player.computer) {
         alert("Victory is MINE!!!");
       } else {
@@ -95,13 +109,6 @@ export class GameBoardComponent implements OnInit {
       }
     }
     this.makeMove(l, this.computer);
-  }
-
-  startGame() : void {
-    this.playHasStarted = true;
-    if(!this.playersTurn()){
-      this.computersMove();
-    }
   }
 
   private switchTurns(){

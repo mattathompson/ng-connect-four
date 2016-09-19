@@ -1,6 +1,11 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <button (click)="startGame(board)" class="btn btn-default" *ngIf="!board.playHasStarted">Start Play</button>
+    <h1>Ng Connect Four</h1>
+    <ul class="nav nav-pills">
+      <li role="presentation" class="disabled"><button (click)="startGame(board)" class="btn btn-default" *ngIf="!board.playHasStarted">Start Play</button></li>
+      <li role="presentation" class="disabled"><button (click)="board.restartGame()" class="btn btn-default" *ngIf="board.playHasStarted && !board.winner">Restart Game</button></li>
+      <li role="presentation" class="disabled"><button (click)="board.restartGame()" class="btn btn-default" *ngIf="board.playHasStarted && board.winner">Play Again</button></li>
+    </ul>
   </div>
 </div>
 <br />
