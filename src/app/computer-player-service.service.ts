@@ -4,12 +4,25 @@ import { BoardRow }   from './';
 @Injectable()
 export class ComputerPlayerService {
   rows: Array<BoardRow>;
+  difficulty: string;
 
   constructor() { }
 
-  chooseMove(rows) : number {
+  chooseMove(rows, difficulty) : number {
     this.rows = rows;
+    this.difficulty = difficulty;
+    let l;
 
+    if(this.isEasy()){
+      l = this.chooseArbitraryMove();
+    } else {
+
+    }
+
+    return l;
+  }
+
+  chooseArbitraryMove() : number {
     let possibilites = this.shuffle(Array(7).fill().map((x,i) => i));
     let l;
 
@@ -20,6 +33,10 @@ export class ComputerPlayerService {
       }
     }
     return l;
+  }
+
+  private isEasy() : boolean {
+    return this.difficulty === "easy";
   }
 
   private shuffle(array) {

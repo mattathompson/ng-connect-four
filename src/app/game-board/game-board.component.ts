@@ -17,6 +17,8 @@ export class GameBoardComponent implements OnInit {
   computer: Player;
   player: Player;
 
+  difficulty: string = "easy";
+
   winner: Player;
 
   players: Array<Player>;
@@ -100,7 +102,7 @@ export class GameBoardComponent implements OnInit {
   }
 
   computersMove(){
-    let l = this.computerService.chooseMove(this.rows);
+    let l = this.computerService.chooseMove(this.rows, this.difficulty);
     this.makeMove(l, this.computer);
   }
 
