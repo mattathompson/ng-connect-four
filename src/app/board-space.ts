@@ -8,6 +8,6 @@ export class BoardSpace {
   constructor(args: any){
     this.index = args.location;
     this.filled = false;
-    this.yIndex = args.yIndex;
+    this.yIndex = (-args.yIndex);
   }
 }

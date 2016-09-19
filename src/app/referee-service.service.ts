@@ -16,8 +16,8 @@ export class RefereeServiceService {
   }
 
   checkVerticalWin(){
-    var result = false
-    var verticalArray = []
+    var result = false;
+    var verticalArray = [];
     for (var i = 0; i <= (this.boardGrid[0].length - 1); i++) {
       verticalArray.push(this.boardGrid.map((x)=> x[i]));
     }
@@ -27,7 +27,7 @@ export class RefereeServiceService {
       var spaces = column.filter(function( obj ) { return obj.playerId === playerId })
       if (spaces.length >= 4){
         var count;
-        var array = spaces.map((x)=> x.yIndex );
+        var array = spaces.map((x)=> x.yIndex ).reverse();
         count = this.countCons(array);
         if(count === 4) {
           result = true;
