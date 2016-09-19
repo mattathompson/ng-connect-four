@@ -35,7 +35,18 @@ export class GameBoardComponent implements OnInit {
   }
 
   newMove() : void {
-    this.referee.checkForWinner(this.rows, this.activePlayerId);
+    var results = this.referee.checkForWinner(this.rows, this.activePlayerId);
+    console.log(results);
+    if (results.win === true) {
+      var player = this.findPlayer(results.playerId);
+      if(player.computer) {
+        alert("Victory is MINE!!!");
+      } else {
+        alert("You win this time... ");
+      }
+      return
+    }
+
     this.switchTurns();
 
     if(!this.playersTurn()) {
