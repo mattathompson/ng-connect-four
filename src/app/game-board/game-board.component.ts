@@ -2,12 +2,13 @@ import { Component, OnInit, ViewChildren, QueryList }    from '@angular/core';
 import { BoardRow, BoardSpace, Player } from '../';
 import { BoardRowComponent } from '../board-row/board-row.component';
 import { RefereeServiceService } from '../referee-service.service';
+import { ComputerPlayerService } from '../computer-player-service.service';
 
 @Component({
   selector: 'app-game-board',
   templateUrl: './game-board.component.html',
   styleUrls: ['./game-board.component.css'],
-  providers: [ RefereeServiceService ]
+  providers: [ RefereeServiceService, ComputerPlayerService ]
 })
 
 export class GameBoardComponent implements OnInit {
@@ -25,10 +26,10 @@ export class GameBoardComponent implements OnInit {
 
   @ViewChildren(BoardRowComponent) boardRowComponents: QueryList<BoardRowComponent>;
 
-
-  constructor(private referee: RefereeServiceService) {
-
-  }
+  constructor(
+    private referee: RefereeServiceService,
+    private computerService: ComputerPlayerService
+  ) {}
 
   ngOnInit() {
     this.rows = Array(6).fill().map((x,i)=> new BoardRow({location: i}));
@@ -99,15 +100,7 @@ export class GameBoardComponent implements OnInit {
   }
 
   computersMove(){
-    let possibilites = this.shuffle(Array(7).fill().map((x,i) => i));
-    let l;
-
-    for (let possibility of possibilites) {
-      if (this.avalibleRow(possibility)) {
-        l = possibility;
-        break;
-      }
-    }
+    let l = this.computerService.chooseMove(this.rows);
     this.makeMove(l, this.computer);
   }
 
@@ -142,18 +135,4 @@ export class GameBoardComponent implements OnInit {
     this.players = Array(this.computer, this.player);
   }
 
-  private shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-  }
 }
